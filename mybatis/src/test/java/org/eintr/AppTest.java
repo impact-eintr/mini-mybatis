@@ -7,6 +7,7 @@ import org.eintr.mybatis.Resources;
 import org.eintr.mybatis.SqlSession;
 import org.eintr.mybatis.SqlSessionFactory;
 import org.eintr.mybatis.SqlSessionFactoryBuilder;
+import org.eintr.po.User;
 
 import java.io.Reader;
 
@@ -45,6 +46,13 @@ public class AppTest
             reader = Resources.getResourceAsReader(resource);
             SqlSessionFactory sqlMapper = new SqlSessionFactoryBuilder().build(reader);
             SqlSession session = sqlMapper.openSession();
+            try {
+                User user = session.selectOne("org.eintr.dao.IUserDao.queryUserInfoById", 1L);
+                System.out.println(user.getUserName());
+            } finally {
+                session.close();
+                reader.close();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
