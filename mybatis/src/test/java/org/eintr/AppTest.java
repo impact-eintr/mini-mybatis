@@ -3,13 +3,17 @@ package org.eintr;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.eintr.mybatis.Resources;
-import org.eintr.mybatis.SqlSession;
-import org.eintr.mybatis.SqlSessionFactory;
-import org.eintr.mybatis.SqlSessionFactoryBuilder;
-import org.eintr.po.User;
+import org.eintr.Dao.IUserDao;
+import org.eintr.mybatis.binding.MapperProxyFactory;
+import org.eintr.mybatis.binding.MapperRegistry;
+import org.eintr.mybatis.session.SqlSession;
+import org.eintr.mybatis.session.SqlSessionFactory;
+import org.eintr.mybatis.session.defaults.DefaultSqlSession;
+import org.eintr.mybatis.session.defaults.DefaultSqlSessionFactory;
 
-import java.io.Reader;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Unit test for simple App.
@@ -35,26 +39,16 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        String resource = "mybatis-config-datasource.xml";
-        Reader reader;
-        try {
-            reader = Resources.getResourceAsReader(resource);
-            SqlSessionFactory sqlMapper = new SqlSessionFactoryBuilder().build(reader);
-            SqlSession session = sqlMapper.openSession();
-            try {
-                User user = session.selectOne("org.eintr.dao.IUserDao.queryUserInfoById", 1L);
-                System.out.println(user.getUserName());
-            } finally {
-                session.close();
-                reader.close();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
+    public void test_proxy_class() {
+        MapperRegistry registry = new MapperRegistry();
+        registry.addMappers("org.eintr.Dao");
+
+        SqlSessionFactory sqlSessionFactory = new DefaultSqlSessionFactory(registry);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+        String res = userDao.queryUserName("1001");
+        System.out.println(res);
     }
 }

@@ -1,6 +1,4 @@
-package org.eintr.mybatis;
-
-import com.sun.javafx.tk.ScreenConfigurationAccessor;
+package org.eintr.simple;
 
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
 

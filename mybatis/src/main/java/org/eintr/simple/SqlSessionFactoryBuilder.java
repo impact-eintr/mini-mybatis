@@ -1,4 +1,4 @@
-package org.eintr.mybatis;
+package org.eintr.simple;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

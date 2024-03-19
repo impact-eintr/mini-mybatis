@@ -1,4 +1,4 @@
-package org.eintr.mybatis;
+package org.eintr.simple;
 
 import java.sql.Connection;
 import java.util.Map;
