@@ -33,6 +33,8 @@ public class XMLConfigBuilder extends BaseBuilder {
 
     public Configuration parse() {
         try {
+            // 解析环境
+            environmentsElement(root.element("environments"));
             // 解析映射器
             mapperElement(root.element("mappers"));
         } catch (Exception e) {
@@ -41,6 +43,29 @@ public class XMLConfigBuilder extends BaseBuilder {
         return configuration;
     }
 
+    /*
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="yxwdmysql"/>
+            </dataSource>
+        </environment>
+    </environments>
+    * */
+    private void environmentsElement(Element context) throws Exception {
+
+    }
+
+    /*
+    <mappers>
+        <mapper resource="mapper/User_Mapper.xml"/>
+    </mappers>
+    */
     private void mapperElement(Element mappers) throws Exception {
         List<Element> mapperList = mappers.elements("mapper");
         for (Element e : mapperList) {
