@@ -6,12 +6,16 @@ import junit.framework.TestSuite;
 import org.eintr.Dao.IUserDao;
 import org.eintr.mybatis.binding.MapperProxyFactory;
 import org.eintr.mybatis.binding.MapperRegistry;
+import org.eintr.mybatis.io.Resources;
 import org.eintr.mybatis.session.SqlSession;
 import org.eintr.mybatis.session.SqlSessionFactory;
+import org.eintr.mybatis.session.SqlSessionFactoryBuilder;
 import org.eintr.mybatis.session.defaults.DefaultSqlSession;
 import org.eintr.mybatis.session.defaults.DefaultSqlSessionFactory;
 
 
+import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,15 +44,13 @@ public class AppTest
     }
 
 
-    public void test_proxy_class() {
-        MapperRegistry registry = new MapperRegistry();
-        registry.addMappers("org.eintr.Dao");
-
-        SqlSessionFactory sqlSessionFactory = new DefaultSqlSessionFactory(registry);
+    public void test_proxy_class() throws IOException {
+        Reader reader = Resources.getResourceAsReader("mybatis-config-datasource.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
         IUserDao userDao = sqlSession.getMapper(IUserDao.class);
-        String res = userDao.queryUserName("1001");
+        String res = userDao.queryUserInfoById(1L);
         System.out.println(res);
     }
 }

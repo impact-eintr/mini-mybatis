@@ -1,18 +1,19 @@
 package org.eintr.mybatis.session.defaults;
 
 import org.eintr.mybatis.binding.MapperRegistry;
+import org.eintr.mybatis.session.Configuration;
 import org.eintr.mybatis.session.SqlSession;
 import org.eintr.mybatis.session.SqlSessionFactory;
 
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
-    private final MapperRegistry mapperRegistry;
+    private final Configuration configuration;
 
     @Override
     public SqlSession openSession() {
-        return new DefaultSqlSession(mapperRegistry);
+        return new DefaultSqlSession(configuration);
     }
 
-    public DefaultSqlSessionFactory(MapperRegistry mapperRegistry) {
-        this.mapperRegistry = mapperRegistry;
+    public DefaultSqlSessionFactory(Configuration configuration) {
+        this.configuration = configuration;
     }
 }

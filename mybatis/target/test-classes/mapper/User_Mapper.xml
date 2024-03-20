@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.eintr.dao.IUserDao">
+<mapper namespace="org.eintr.Dao.IUserDao">
 
     <select id="queryUserInfoById" parameterType="java.lang.Long" resultType="org.eintr.po.User">
         SELECT id, userId, userName, userHead, createTime

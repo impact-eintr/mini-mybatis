@@ -9,4 +9,6 @@ public interface SqlSession {
 
     // 获取映射器
     <T> T getMapper(Class<T> type);
+
+    Configuration getConfiguration();
 }
