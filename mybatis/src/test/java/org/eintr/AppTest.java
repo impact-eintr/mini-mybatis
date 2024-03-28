@@ -4,20 +4,18 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.eintr.Dao.IUserDao;
-import org.eintr.mybatis.binding.MapperProxyFactory;
-import org.eintr.mybatis.binding.MapperRegistry;
+import org.eintr.mybatis.datasource.pooled.PooledDataSource;
 import org.eintr.mybatis.io.Resources;
 import org.eintr.mybatis.session.SqlSession;
 import org.eintr.mybatis.session.SqlSessionFactory;
 import org.eintr.mybatis.session.SqlSessionFactoryBuilder;
-import org.eintr.mybatis.session.defaults.DefaultSqlSession;
-import org.eintr.mybatis.session.defaults.DefaultSqlSessionFactory;
+import org.eintr.po.User;
 
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Unit test for simple App.
@@ -50,7 +48,28 @@ public class AppTest
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
         IUserDao userDao = sqlSession.getMapper(IUserDao.class);
-        String res = userDao.queryUserInfoById(1L);
-        System.out.println(res);
+        // 3. 测试验证
+        for (int i = 0; i < 50; i++) {
+            User user = userDao.queryUserInfoById(1L);
+        }
+    }
+
+    public void test_pooled() throws SQLException, InterruptedException {
+        PooledDataSource pooledDataSource = new PooledDataSource();
+        pooledDataSource.setDriver("com.mysql.cj.jdbc.Driver");
+        pooledDataSource.setUrl("jdbc:mysql://127.0.0.1:3306/test?useUnicode=true");
+        pooledDataSource.setUsername("root");
+        pooledDataSource.setPassword("yxwdmysql");
+        // 持续获得链接
+        while (true) {
+            Connection connection1 = pooledDataSource.getConnection();
+            Connection connection2 = pooledDataSource.getConnection();
+            Connection connection3 = pooledDataSource.getConnection();
+            Thread.sleep(1000);
+            // 注释掉/不注释掉测试
+            connection1.close();
+            connection2.close();
+            connection3.close();
+        }
     }
 }

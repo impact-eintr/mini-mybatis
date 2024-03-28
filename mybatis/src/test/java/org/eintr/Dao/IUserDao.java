@@ -5,7 +5,7 @@ import org.eintr.po.User;
 import java.util.List;
 
 public interface IUserDao {
-    String queryUserInfoById(Long id);
+    User queryUserInfoById(Long id);
 
     List<User> queryUserList(User user);
 

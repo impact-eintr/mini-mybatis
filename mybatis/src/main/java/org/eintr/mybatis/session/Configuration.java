@@ -3,6 +3,8 @@ package org.eintr.mybatis.session;
 import org.eintr.mybatis.Transaction.jdbc.JdbcTransactionFactory;
 import org.eintr.mybatis.binding.MapperRegistry;
 import org.eintr.mybatis.datasource.druid.DruidDataSourceFactory;
+import org.eintr.mybatis.datasource.pooled.PooledDataSourceFactory;
+import org.eintr.mybatis.datasource.unpooled.UnpooledDataSourceFactory;
 import org.eintr.mybatis.mapping.Environment;
 import org.eintr.mybatis.mapping.MappedStatement;
 import org.eintr.mybatis.type.TypeAliasRegistry;
@@ -26,10 +28,10 @@ public class Configuration {
 
     public Configuration() {
         typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
+
         typeAliasRegistry.registerAlias("DRUID", DruidDataSourceFactory.class);
-        // TODO 配置数据源
         typeAliasRegistry.registerAlias("UNPOOLED", UnpooledDataSourceFactory.class);
-        //typeAliasRegistry.registerAlias("POOLED", PooledDataSourceFactory.class);
+        typeAliasRegistry.registerAlias("POOLED", PooledDataSourceFactory.class);
     }
 
     public void addMappers(String packageName) {
@@ -54,5 +56,17 @@ public class Configuration {
 
     public MappedStatement getMappedStatement(String id) {
         return mappedStatements.get(id);
+    }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    public TypeAliasRegistry getTypeAliasRegistry() {
+        return typeAliasRegistry;
     }
 }

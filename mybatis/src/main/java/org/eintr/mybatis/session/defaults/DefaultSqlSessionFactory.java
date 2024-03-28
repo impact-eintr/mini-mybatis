@@ -1,6 +1,5 @@
 package org.eintr.mybatis.session.defaults;
 
-import org.eintr.mybatis.binding.MapperRegistry;
 import org.eintr.mybatis.session.Configuration;
 import org.eintr.mybatis.session.SqlSession;
 import org.eintr.mybatis.session.SqlSessionFactory;

@@ -30,6 +30,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
             return method.invoke(this, args);
         } else { // 其他方法都将被 代理类 代理
             final MapperMethod mappedMethod = cachedMapperMethod(method);
+            System.out.println("开始代理: "+method.getName());
             return mappedMethod.execute(sqlSession, args);
         }
     }

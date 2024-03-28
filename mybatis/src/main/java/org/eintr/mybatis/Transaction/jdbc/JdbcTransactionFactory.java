@@ -8,13 +8,16 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 
 public class JdbcTransactionFactory implements TransactionFactory  {
+
+
     @Override
     public Transaction newTransaction(Connection connection) {
-        return null;
+        return new JdbcTransaction(connection);
     }
 
     @Override
-    public Transaction newTranscation(DataSource dataSource, TransactionIsolationLevel level) {
-        return null;
+    public Transaction newTranscation(DataSource dataSource, TransactionIsolationLevel level,
+                                      boolean autoCommit) {
+        return new JdbcTransaction(dataSource, level, autoCommit);
     }
 }
