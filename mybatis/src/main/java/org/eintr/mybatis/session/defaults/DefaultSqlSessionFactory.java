@@ -34,7 +34,6 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
             } catch (SQLException ignore) {}
             throw new RuntimeException("Error opening session. Cause: " + e);
         }
-
     }
 
     public DefaultSqlSessionFactory(Configuration configuration) {

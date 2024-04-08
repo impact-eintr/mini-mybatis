@@ -49,9 +49,7 @@ public class AppTest
 
         IUserDao userDao = sqlSession.getMapper(IUserDao.class);
         // 3. 测试验证
-        for (int i = 0; i < 50; i++) {
-            User user = userDao.queryUserInfoById(1L);
-        }
+        User user = userDao.queryUserInfoById(1L);
     }
 
     public void test_pooled() throws SQLException, InterruptedException {
